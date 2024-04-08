@@ -1,0 +1,298 @@
+\subsection{Preamble}
+The idea behind the Lamplighter Group is that you should imagine a a town which has a road with infinite unlit street lamps. Then there's a guy, the lamplighter, that goes around to a finite number of lamps then lights them up/puts them out. Then this Lamplighter ends his journey by leaning on some streetlamp. We actually have that this situation is a group, call it $L_2$.
+
+To show this we're gonna need to make this notion a bit more mathematically precise, instead of an infinite chain of Lamps, we'll instead take a copy of the integer line, with a lamp placed at every integer. Then we may say that an element in $L_2$ consists of tuples. The first element in the tuple consists of a finite set of integers, these represent the lamps that are illuminated, then the second element will be the terminal position of the lamplighter.
+\begin{example}
+    ($\{-3,-1,2,6,14
+\}$,67) represents the situation where the lamps placed at $-3,-1,2,6,14$ are illuminated, with the lamplighter being at the lamp at integer 67.
+\end{example}
+There is another interpretation as we since each lamp is either on or off, we may better represent it by using elements from $\mathbb{Z}/2\mathbb{Z}$. Such that 1 implies that a lamp is on and 0 if it is off. We can present this data as an element of the group $\bigoplus^{\infty}_{i=-\infty}(\mathbb{Z}/2\mathbb{Z})_i$. This is understood to be the infinite direct sum of copies of $\mathbb{Z}/2\mathbb{Z}$, where each element in this group is an infinite tuple, which can be indexed by integers, with the further condition that a finite number of entries are 1. Then you may realize that the Lamplighter group can be constructed using $\mathbb{Z}$ and (the much larger group) $\bigoplus^{\infty}_{i=-\infty}(\mathbb{Z}/2\mathbb{Z})_i$. Where the integer represents the final position of the lamplighter, and the infinite tuple represents which lamps are illuminated. But enough with the hand waivy math stuff.
+\subsection{Office Hours Chapter 15.1 - Generators and Relators}
+
+
+\begin{definition}
+    We may define the lamplighter group as
+    \[L_2 = \langle a,t\vert a^2 \rangle\]
+\end{definition}
+The intuition behind this representation is that the letter $t$ represents when the lamplighter moves the right by 1 unit, $t^{-1}$ for moving left. And $a$ is to toggle the lamp at his current position. Multiplying two elements $g$ and $h$ in $L_2$ is just concattenating the two together forming $gh$. Multiplying two elements together using this model is pretty easy, but multiplying them with the first model discussed is a bit more challenging.
+\begin{exercise}
+    Describe how to multiply group elements when they are represented as a pair $(k,x)$ where $k\in\mathbb{Z}$ and $x\in\bigoplus(\mathbb{Z}/2\mathbb{Z})_i$, that is, give a formula for the product $(k, x)\cdot(l, y)$.
+\end{exercise}
+\[\textbf{Group Presentation}\]
+We defined the relation set to be $a^2=1$ in $L_2$, this is to be interpretted as the lamplighter toggling the lamp, then toggling it again, which obviously does nothing. But we may complete the presentation by adding on an infinite collections of relations. We first imagine that the lamplighter starts at the origin, $0\in\mathbb{Z}$. Then they move $j$ spaces, turns on that light, then returns to the origin, this action is $t^jat^{-j}$. Then the lamplighter moves $k\neq j$ spaces, turns on that light then returns to the origin, again this action is $t^kat^{-k}$. Now we have that the lamps at $j,k$ are both on, and the lamplighter is at the origin. We notice that these two actions may commute, as it doesn't matter if the lamplighter turns on the $j$ lamp or the $k$ lamp first. So we necssarily have
+\begin{center}
+    $[t^jat^{-j},t^kat^{-k}]$ for all $j,k\in\mathbb{Z}$ in our relations set
+\end{center}
+Note in this group we have that the identity element is the lamplighter at the origin with no lamps lit up\footnote{I'll be referring to this element as the Identity State}. Thus we arrive at the final presentation
+
+\[L_2\footnote{Notice the 2 is used to signify that a lamp has 2 states, either on or off, } = \langle a,t\vert a^2, [t^jat^{-j},t^kat^{-k}]\text{ for all $j,k,\in\mathbb{Z}$}\rangle\footnote{This is an example of a non-finitely presented group}\]
+\newpage
+\[\textbf{\textit{L}$_\textbf{2}$ as Matrices}\]
+The idea behind this is to first encode a state of lit lamps into a polynomial in $t^i$ and $t^{-i}$ with coefficients in $\mathbb{Z}/2\mathbb{Z}$, where the only non-zero coefficients correspond to the $i^{th}$ lamp being lit.
+\begin{example}
+    Consider 
+    \[(\ldots,0,0,0,1,\underbrace{1}_{0},0,1,1,1,0,0,\ldots)\]
+\end{example}
+Where the underbrace under the 1 is the $0^{th}$ index. The corresponding polynomial to this state is
+\[ t^{-1}+1+t^2+t^3+t^4\]
+Now we may think of an element in $L_2$ as a tuple, $(P,k)$, where $P$ is some polynomial of $t^i$ and $t^{-i}$, with coefficients in $\mathbb{Z}/2\mathbb{Z}$, such that finitely many of them are 1. and an integer $k$. $k$ is used to denote the position of the lamplighter, and $P$ is used to denote the state of the lamps. Then we may multiply two elements, $(P_1,k_1)$ and $(P_2,k_2)$ from $L_2$ by
+\[
+    \begin{pmatrix}
+        t^{k_1} & P_1 \\ 
+        0 & 1
+    \end{pmatrix}
+    \begin{pmatrix}
+        t^{k_2} & P_2 \\ 
+        0 & 1
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        t^{k_1+k_2} & P_2t^{k_1} + P_1 \\ 
+        0 & 1
+    \end{pmatrix}
+    \]
+\[\textbf{A Family of Groups}\]
+We can generalize $L_2$ to more than 2 states for each lamp. So we can generalize an element of $L_n$ to an element from $\bigoplus^{\infty}_{i=-\infty}(\mathbb{Z}/n\mathbb{Z})_i$ and an integer $k$ to denote the final position of the lamplighter. Then we also have that the presentation of $L_n$ is as follow
+\begin{definition}
+    We define a more generalized version of the Lamplighter Group, where each lamp has $n$ states instead of 2
+    \[L_n =\langle a,t\vert a^n, [t^jat^{-j},t^kat^{-k}]\text{ for all $j,k,\in\mathbb{Z}$}\rangle\]
+\end{definition}
+
+
+\subsection{Office Hours Chapter 15.2 - Computing Word Length}
+The goal for this next section will be to give an explicit formula for the word lengths of elements within $L_2$. But right now we have some ambiguity with regards to the words associated with an element of $L_2$.
+\begin{example}
+    If we have the lamps at -1,1,2 turned on, then the following two words are suitable to reach this state, assuming the lamplighter starts at the origin
+    \begin{itemize}
+        \item $tat^{-2}at^3$
+        \item $t^{-1}at^2ata$
+    \end{itemize}
+    Where the first word has length 8, and the latter has length 7
+\end{example}
+But an efficient path of the lamplighter can be constructed for any element of $L_2$ using the following algorithm
+\begin{definition}[Efficient Algorithm] %TODO fix Formatting
+    \begin{enumerate}
+        \item Move the lamplighter to the smallest non-negative integer lamps and turn it on.
+        \item Keep on moving to the right until all non-negative integer lamps have been turned on
+        \item When all non-negative integer lamps have been turned on, have the lamplighter move to the origin, 0
+        \item Now have the lamplighter move left, illuminating the desired lamps as he comes across them
+        \item When all the desired negative-integer lamps have been illuminated, have the lamplighter move to his final position
+    \end{enumerate}
+    We use $\gamma : L_2 \to \mathbb{Z}$ to denote the length of word created by this procedure
+\end{definition}
+We have an analagous procedure where we instead illuminate the negative indexed bulbs, then the positive one. We use $\gamma'(n)$ to denote the length of the word constructed this way.
+\begin{exercise}
+    When are $\gamma'$ and $\gamma$ both geodesics?
+\end{exercise}
+When the final position is 0. First we let $m$ be the index of the largest positive lamp, and $n$ be the index of the smallest negative lamp. But the idea is basically that $\gamma$ illuminates all the positive bulbs in $m$ ``moves", then returns to the origin with another $m$, then lights up the negative bulbs in $n$ moves, then returning the origin in an additional $n$ moves. So in total $\gamma$ did $2n+2m$ moves. Then synonymously for $\gamma'$, it lights up the negative bulbs and returns to the origin in $2n$ moves. Then it further lights up the positive bulbs then returns to the origin in $2m$ moves.
+\newpage
+\begin{exercise}
+    When is only $\gamma$ a geodesic? When is only $\gamma'$ a geodesic?
+\end{exercise}
+\noindent$\gamma$ is a geodesic when the ending position is negative. Using the same variables as above, and letting $k\in\mathbb{Z}^+$ be the distance between the origin and the ending position. $\gamma$ follows the following procedure
+\begin{enumerate}
+    \item Start at the origin then move $2m$ spaces to illuminate the positive bulbs then returning to the origin
+    \item Move $n$ spaces to illuminate
+    \item moving $n-k$ spaces to the final position 
+\end{enumerate}
+So we have that $\gamma$ constructs a word of length $2m+n+n-k=2m+2n-k$. Then we consider the length of the word by $\gamma'$.
+\begin{enumerate}
+    \item Start at the origin then move $2n$ spaces to illuminate the negative bulbs then returning to the origin
+    \item then move $2m$ spaces to illuminate the positive bulbs then returning to the origin
+    \item then moving $k$ moves to the ending position
+\end{enumerate} 
+So we have that $\gamma'$ constructs a word of length $2m+2n+k$. Then we have that $2m+2n-k<2m+2n+k$\footnote{You might've noticed that I haven't been counting the number of illuminating actions, $a$. We may actually disregard these letters because since $\gamma$ and $\gamma'$ represent the same state, they'll have the same amount of lamps illuminated. Thus same amount of $a$}, so we have that $\gamma$ is a geodesic when the ending position is negative. $\qed$
+\[\textbf{Writing Down the Efficient Paths}\]
+We begin by letting $a_k=t^{k}a^{-k}$ denote the conjugate of $a$ by $t^{k}$. We start by considering the identity state, then we notice that $a_k$ is the action of moving $k$ spaces, turning on the lamp, then returning to the origin. We further notice that
+\begin{itemize}
+    \item all $a_i$ commutes for all $i\in\mathbb{Z}$
+    \item Occurences of $a_k$ in the product
+    \[\prod_{i=0}^{m}a_{b_i}\] 
+    cancel in pairs. This corresponds to moving $k$ spaces, then toggling the lamp, then returning to the origin, then you do that again.
+\end{itemize}
+Then we may further notice that when we multiply these conjugates together, in increasing order, say $a_2a_7$, this ensures that the lamplighter moves to $2$, lights it up, then moves to $7$. This is evident from the following
+\[a_2a_7 = t^2at^{-2}t^7at^{-7}=t^2at^5at^{-7}\]
+Thus if we have that an element $g\in L_2$, which illumated bulbs at $i_1<i_2<\ldots<i_n$ and $-j_1>-j_2>\ldots > -j_m$ with $j_1>0$\footnote{I think this is a typo in the book} and the lamplighter ending at position $k$, we may write $g$ as:
+\[ g = a_{i_1}a_{i_2}\ldots a_{i_n}a_{-j_1}a_{-j_2}\ldots a_{-j_m}t^k\]
+\[\textbf{Computing Word Length of Group Elements}\]
+\begin{definition}
+    Given $g\in L_2$, then write down $\gamma(g)$ using the $a_k$ notation, further let $g = a_{i_1}a_{i_2}\ldots a_{i_n}a_{-j_1}a_{-j_2}\ldots a_{-j_m}t^k$. We call the length of the reduction of this word $D(g)$
+\end{definition}
+\begin{theorem}[Taback-Cleary]
+    For $g = a_{i_1}a_{i_2}\ldots a_{i_k}a_{-j_1}a_{-j_2}\ldots a_{-j_l}t^m\in L_2$
+    \[D(g)=k+l+min\{2j_l +i_k +\vert m-i_k\vert ,2i_k +j_l +\vert m+j_l\vert\}\]
+\end{theorem}
+The intuition behind this theorem took me a bit. Each term is important.
+\begin{itemize}
+    \item $k+l$ is the total number of illuminated bulbs
+    \item $2j_l +i_k +\vert m-i_k\vert$ is when the ending position $m$ is positive
+    
+    \item $2i_k +j_l +\vert m+j_l\vert$ is when the ending position $m$ is negative
+\end{itemize}
+\subsection{Office Hours Chapter 15.3 - Dead End Elements}
+We now consider some geometric properites regarding the \href{https://en.wikipedia.org/wiki/Cayley_graph}{Cayley Graph} with respect to the generating set $\{a,t\}$.
+\[\textbf{Dead End Elements}\]
+Imagine you're going on walk away from your house. and then you reach a point where regardless of which path you take, you'll be closer to your house. Synonymously, imagine you're walking on the vertices of a Cayley Graph by traversing it's edges, away from the identity. Then you reach a vertex where all edges either take you closer to the identity, or maintain your current distance. A natural question is if this is even possible, which it is. And these vertices are called dead end elements. Another perspective is considering the geodesic path between this element and the identity, if this geodesic can be extended and remain a geodesic, then it is not a dead end element. If it cannot be extended while still preserving ``geodesic-ness'' then it is a dead end element.
+\newpage
+\begin{example}
+    Consider the Cayley Graph of $\mathbb{Z}$ with respect to the generating set $\{2,3\}$. We use $d(a,b)$ as a distance function between integers $a$ and $b$. We first notice
+    \begin{itemize}
+        \item $d(0,1)= 2$, Since $3-2=1$
+        \item $d(0,2) = 1$
+        \item $d(0,3) = 1$ 
+    \end{itemize}
+    Then we claim that 1 is a dead end element. So it suffices to check that the 4 vertices (-2,-1,3,4) connected to 1 have distance of 2 or less from $0$.
+    \begin{itemize}
+        \item $d(0,-2)=1$
+        \item $d(0,-1) = 2$ since $2-3=-1$
+        \item $d(0,3) = 1$
+        \item $d(0,4) = 2$ since $2+2=4$
+    \end{itemize}
+    Thus we have that $1$ is a dead end element
+\end{example}
+\[\textbf{Backtracking from Dead End Elements}\]
+An intuitive understanding for this part is to imagine yourself in a maze, more precisely that you're stuck in a dead end. In such a case you would have to backtrack your steps before your on a path that does lead you to the end.
+
+More mathematically suppose that $g\in G$ is a dead end element, and its word length with respect to a generating set $S$ is $n$, that is $\vert g\vert _S = n$
+\begin{definition}[Depth]
+    We say a word of length $n$, $g$, has \textit{depth} $k$ if the shortest path from to any group element of length $n+1$ is of length $k+1$.
+\end{definition}
+Intuitively $k+1$ is the minimum number of edges you must traverse in the Cayley Graph in order to reach an element that is farther than $g$ from the identity. Relating this back to the lamplighter group, we have the following theorem
+\begin{theorem}
+    The lamplighter group $L_2$ contains dead end elements of arbitrary depth with respect to the generating set $\{t,a\}$.
+\end{theorem}
+We first find a dead-end element within $L_2$. We first consider
+\[d_m = a_0a_1\ldots a_ma_{-1}a_{-2}\ldots a_{-m}\]\footnote{All the lamps within an $m$ radius are lit}
+Then we further notice that $d_m$ has word length $m + m + 4m+1=6m+1$. Then we have that our efficient path to $d_m$ also has this length, thus it must be a geodesic. So now it suffices to show that $d_ma,d_mt,d_mt^{-1}$ are all closer to the identity than the $d_m$.
+\begin{itemize}
+    \item $d_ma$
+    
+    The difference between this and $d_m$ is that the bulb at the origin isn't lit, thus we may effectively drop the $a_0$ term in the definition of $d_m$ to reach $d_ma$. Thus we have a shorter word
+    \item $d_mt$ 
+    
+    The difference is that the lamplighter finishes at index 1, instead of the origin. So then we may consider the following, since $a_k$ commute
+    \[d_{-m}t= a_0a_{-1}\ldots a_{-m}a_{1}a_{2}\ldots a_{m}t = a_0a_{-1}\ldots a_{-m}a_{1}a_{2}\ldots t^mat^{-m+1}\]
+    Which is lesser length than $d_m$
+    \item $d_mt^{-1}$
+    
+    We directly compute 
+    \[d_m = a_0a_1\ldots a_ma_{-1}a_{-2}\ldots a_{-m}t^{-1}= a_0a_1\ldots a_ma_{-1}a_{-2}\ldots t^{-m}at^{m-1}\]
+    Which is lesser length than $d_m$
+\end{itemize}
+So in any case we have that $d_m$ is a dead end element.
+
+\subsection{Office Hours Chapter 15.4 - Geometry of the Cayley Graph}
+Now onto some more interesting stuff. You might've noticed that I've thrown the word ``Cayley Graph" around\footnote{There isn't a definition for this, but I gave a hyperlink :)}, but we haven't actually done anything with the Cayley Graph of $L_2$ yet. But to make our Cayley Graph beautiful we will change our generating set a bit
+\begin{definition}[Electricity Free]
+    The generating set $\{a,at,a^2t,\ldots,a^{n-1}\}$ is the \textit{Electricity Free} generating set, specifically $\{a,at\}$ is the electricity free generating set for $L_2$.
+\end{definition}
+We notice that $(at)^{-1} = t^{-1}a^{-1}$, as this element satisfies being the left/right inverse to $at$.
+\newpage
+\begin{exercise}
+    Describe an algorithm to construct efficient paths $\eta(g)$ and $\eta'(g)$ using the electricity-free generating set $\{t, at\}$.
+\end{exercise}
+The idea here is that you spam $t$ until the lamplighter is on an index which should be on, then you do $at$. Repeat this until all the positive indices are illuminated. Then return to the origin, and repeat for the negative indices. Then go to the final position
+\begin{exercise}
+    Can you use these new paths $\eta(g)$ and $\eta'(g)$ to compute the word length of $g\in L_2$ with respect to $\{t,at\}$?
+\end{exercise}
+If the smallest negative index is $m$ and the largest positive index is $n$, and the lamplighter's final position is $k$. then the distance function is given by
+\[ D(g) = \min\{ 2m+n+\vert n+k\vert ,2n+m+\vert m-k\vert \}\]
+\[\textbf{Diestel–Leader graphs}\]
+We actually have that the graphs generated by $\{a,at\}$ are pretty special, special enough to get their own name, the \textit{Diestel-Leader graphs}. These graphs were first introduced to the question
+\begin{center}
+    Is every ``nice" infinite graph \href{https://en.wikipedia.org/wiki/Quasi-isometry}{Quasi-Isometric} to the Cayley Graph of some finitely generated group?
+\end{center}
+Although ``nice'' is rather ambiguous, the most notable qualities are that the graph is connected and every vertex has equal degree.
+\begin{definition}[Diestel-Leader Graphs]
+    First consider two infinite trees\footnote{A graph with no cycles} with fixed valence\footnote{degree} of $d+1$, call them $T_1$ and $T_2$. Then we orient each tree such that each vertex has 1 incoming edge and $d$ outgoing edges\footnote{We don't have a root in this tree}. Now fix a height function $h_i : T_i\to\mathbb{Z}$ for $i=1,2$. This function fixes a level on each tree by first identifying a vertex as level 0. Then every edge directed away from a vertex of height $d$ leads to a vertex of height $d+1$. And the edge that ends in height $d$ starts with a height of $d-1$. Then we let $T_1\times T_2$ be the product of trees $T_1$ and $T_2$. So the ordered pair $(t_1,t_2)\in T_1\times T_2$, for $t_1\in T_1$ and $t_2\in T_2$. Then we have that the Diestel-Leader Graph is a special subset of this product of trees. Furthermore we use $DL_2(d)$ to denote this special subset.
+\end{definition}
+\newpage
+\[\textbf{Vertices in the Diestel-Leader graph \textit{DL$_\textit{2}$(d)}}\]
+We have that the Vertices $DL_2(d)$ are the elements in $T_1\times T_2$ for which the sum of the heights of both elements is 0. More formally
+\[\{(t_1,t_2)\vert t_1\in T_2\text{ and } h_1(t_1)+h_2(t_2)=0\}\]
+An intuitive visualization for this is to draw $T_1$ such that the height is increasing in one direction, then to draw $T_2$ such that the height is decreasing in that same direction, while making sure to identify height $d$ in $T_1$ with heigh $-d$ in $T_2$. The book has a pretty nice visual for how to do this.
+\[\textbf{Edges in the Diestel–Leader graph \textit{DL$_\textit{2}$(d)}}\]
+Thus we say $(t_1,s_1)$ is connected to $(t_2,s_2)$ if $t_1$ is connected to $t_2$ in $T_1$ and $s_1$ is connected to $s_2$ in $T_2$. But then further notice that by the height-sum requirement on the vertices, we must have that one of two things happen between two connected vertices
+\begin{itemize}
+    \item increasing height by 1 in $T_1$ while decreasing height by 1 in $T_2$
+    \item decreasing height by 1 in $T_1$ while increasing height by 1 in $T_2$
+\end{itemize}
+We may then further notice that that for any given vertex in $d\in DL_2(d)$, we have that exactly $2d$ vertices are connected by 1 edge to $d$.
+\[\textbf{Vertices in DL$_\textit{2}$(2) as elements of L$_\textit{2}$}\]
+We now show that the Cayley Graph $\Gamma(L_2,\{a,at\})$ is the Diestel-Leader Graph $DL_2(2)$. To do this we must show a way of associating a vertex in $DL_2(2)$ with an element of $L_2$ while still preserving the overall structure. We may do this as follows
+\begin{enumerate}
+    \item Consider a single infinite tree of valence 3\footnote{For the CS people, an infinite complete binary tree} with a fixed height function. then we have that each vertex in this tree has 1 incoming edge, and 2 outgoing edges. Label the left outgoing edge with 0, and the right outgoing edge with 1.
+    \item Then pick some vertex, $v$, in our tree such that there is a unique downwards path, with each ``step'' decreasing the height by 1. Then we may read the labels off of the edges we traverse and concatenate them into a string
+    \[\mathcal{A}_1 = a_1a_2a_3a_4\ldots\]
+    where each $a_i=0,1$ and $a_j=0$ for all $j$ greater than some constant
+    \item Conversely, given some integer $k$ and a string $\mathcal{A}_2=a_1a_2a_3a_4\ldots$ where each $a_i=0,1$ and $a_j=0$ for all $j$ greater than some constant. We may find some vertex, $w$, at height $k$ such that a path downwawrds from $w$ is $\mathcal{A}$. Furthermore, we have that this vertex is unique
+    \item Then to describe any vertex of $DL_2(2)$, all we need is two strings $\mathcal{A}_1$ and $\mathcal{A}_2$, each of which is composed of elements only from $\{0,1\}$, and such that the entries are 0 past a certain point. And an integer $k$. The first string, $\mathcal{A}_1$ is used to describe a vertex at height $k$ in $T_1$ and $\mathcal{A}_2$ is used to describe a vertex at height $-k$ in $T_2$
+\end{enumerate}
+
+
+
+
+
+
+
+\[\textbf{\textit{DL$_\textit{2}$(2)} as a Cayley graph of L$_\textit{2}$}\]
+Now we will exhibit a bijection between the vertices of $DL_2(2)$ and the elements of $L_2$. The idea is to consider the tuple $(\mathcal{A}_1,\mathcal{A}_2,k)$ where $k$ is used to denote the position of the lamplighter. We then construct a polynomial of variables $t$ and $t^{-1}$ with coefficients in $\mathbb{Z}/2\mathbb{Z}$. Then we let the sequence $\{a_i\}$ be the coeffiecient to $t^{i}$. We then divide $\{a_i\}$ into two seperate sequences : $\mathcal{A}_1 = \{a_i\}_{i<k}$, and $\mathcal{A}_2 = \{a_i\}_{i\geq k}$. Where the former sequence must be read in reverse order. We also require that both sequences are eventually constantly 0.
+\begin{remark}
+    The book gave the example of
+    \begin{itemize}
+        \item $\mathcal{A}_1=(1,0,1,0,0,\ldots)$ 
+        \item $\mathcal{A}_2=(1,0,0,0,\ldots)$
+        \item $k=2$
+    \end{itemize}
+    and had this element correspond to the matrix
+    \[\begin{pmatrix}
+        t^2 & t^{-1}+t+t^2\\
+        0 & 1
+    \end{pmatrix}\]
+    But the idea is that starting from the $k'th$ position, start reading entries off of $\mathcal{A}_2$, such that the current position is the first entry, then continue reading them as you go right. And you read $\mathcal{A}_1$ in a similar fashion but travel left and start with the lamp directly left to the position.
+\end{remark}
+You finish the proof that $DL_2(2)$ is the Cayley Graph of $L_2$ with an electric-free generating set is completed by showing that this identification extends to a graph isomorphism between the two graphs
+\newpage
+\[\textbf{Moving Around in This Cayley Graph}\]
+The goal is to move around this Cayley Graph as easily as we can move around $\Gamma(\mathbb{Z}\times\mathbb{Z},\{(1,0),(0,1)\})$, hint : we can move around this integer lattice really easily. For $DL_2(2)$ we would like to develop a similar intuitive sense for movement. And how vertices who differ by a single edge differ in their $(\mathcal{A}_1,\mathcal{A}_2,k)$ coordinate. Specifically if we're at $(\mathcal{A}_1,\mathcal{A}_2,k)$ and wish to travel on the edge labelled with ``$t$'', what is the coordinate of the vertex we end up at? To properly describe this we may convert $(\mathcal{A}_1,\mathcal{A}_2,k)$ into matrix form, as well as the action of $t$.
+\[\begin{pmatrix}
+    t^k & P\\
+    0 & 1
+\end{pmatrix}
+\begin{pmatrix}
+    t & 0\\
+    0 & 1
+\end{pmatrix} = \begin{pmatrix}
+    t^{k+1} & P\\
+    0 & 1
+\end{pmatrix}\]
+Although it is immediate to see how this affects the matrix representation, what about the representation in $DL_2(2)$? It is immediate to see that the coordinate of the lamplighter moved from $k$ to $k+1$. Then we obtain $(\mathcal{B}_1,\mathcal{B}_2, k+1)$ as our new coordinate, where
+\begin{itemize}
+    \item $\mathcal{B}_1= \{a_i\}_{i<k+1}$
+    \item $\mathcal{B}_2= \{a_i\}_{i\geq k+1}$
+\end{itemize}
+Now we have a precise difference between an element $g$ and $gt$, and we are able to locate the latter given we know where the former is, and we can do it as follows :
+\begin{itemize}
+    \item In $T_1$, we may proceed along the edge labeled $a_k$ to a new vertex that is at height $k+1$
+    \item In $T_2$, Simply remove the initial edge in the path, so that the new truncated path begins at a vertex of height $-(k+1)$
+\end{itemize}
+Thus we have that this new vertex corresponds to $(\mathcal{B}_1,\mathcal{B}_2, k+1)$ and is connected to $(\mathcal{A}_1,\mathcal{A}_2, k)$ by one edge. Moving along an electricity-free generated graph is synonymous, given some $g$ in the electricity free graph, we may multiply it by $at$ to get
+\[g(at) = \begin{pmatrix}
+    t^{k+1} & P+t^k\\
+    0 & 1
+\end{pmatrix}\]
+After a similar argument as before, we have that the vertex $gat$ has the same $T_2$ coordinate as $gt$, and it shares the same parent vertex in $T_1$. We also have that the lamp at $t^k$ has been turned on, this only changes $\mathcal{B}_1$ by adding 1 onto it's first entry\footnote{Mod 2 of course}, and it's subsequent entries are exactly $\mathcal{A}_1$
+
+\newpage
+\subsection{Office Hours Chapter 15.5 - Generalizations}
+\[\textbf{Wreath Product}\]
+We actually have that the lamplighter group, $L_2$, is the wreath product between $\mathbb{Z}/2\mathbb{Z}$ and $\mathbb{Z}$. and it is denoted as $\mathbb{Z}/2\mathbb{Z}\wr \mathbb{Z}$. We actually have that the wreath product is a very general construction
+\begin{definition}
+    Let $F$ be a finite group and let $G$ be a finitely generated group. Then we have that the elements in $F\wr G$ comprises of a finite collection of elements from $F$, analagous to the state of the lamps, and an element from $G$, analagous to the final placement of the lamplighter.
+\end{definition}
+We may actually further extend this notion by replacing $F$ with any finitely generated group
+\[\textbf{Lamplighters and Traveling Salesmen}\]
+Although it is super easy to find efficient paths in $L_2$, we may further consider infinite lamps on the place, specifically $\mathbb{Z}/2\mathbb{Z}\wr(\mathbb{Z}\times\mathbb{Z})$. So say we're given an element of this group, $g=((x_1,y_1,),\ldots,(x_n,y_n))$ and a final position $(x,y)$. To find a minimal lengthed word with respect to some generating set, we must find a minimal path that visit all of these $n+1$ vertices. This is actually a very hard problem
+\begin{remark}[Traveling Salesman Problem]
+    The \textit{Traveling Salesman Problem} is as follows. Given a list of cities and a map (so that you know how far apart the cities are), determine a minimal path for a salesman who must visit each city exactly once. This question is very hard
+\end{remark}
